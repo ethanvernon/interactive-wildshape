@@ -15,9 +15,11 @@ export class Child extends Component {
 
 
 
+
   render() {
     return (
       <div>
+        <span>Size: </span>
         <select
           id="forms"
           onChange = {this.handleChange}>
@@ -28,6 +30,7 @@ export class Child extends Component {
           <option value ="Large">Large</option>
           <option value ="Huge">Huge</option>
         </select>
+        
       </div>
     );
   }
