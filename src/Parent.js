@@ -3,23 +3,27 @@ import './App.css';
 import { Child } from './Child';
 import { Sibling } from './Sibling';
 import { StrInput } from './StrInput';
+import { DexInput } from './DexInput';
 
 export class Parent extends Component {
   constructor(props) {
     super(props);
-    this.state = {form: 'Medium', strength: 18, modStrength: 18};
+    this.state = {form: 'Medium', strength: 18, dex: 18, modStrength: 20, modDex: 18};
     this.changeForm = this.changeForm.bind(this);
     this.checkStrength = this.checkStrength.bind(this);
     this.changeStrState = this.changeStrState.bind(this);
+    this.checkDex = this.checkDex.bind(this);
+    this.changeDexState = this.changeDexState.bind(this);
   }
 
 
   //passed to Child as prop
-  //updates this.state.modStrength whenever size changes
-  changeForm(newForm, newStrength) {
+  //updates this.state.modStrength, this.dexStrength, this.form whenever size changes
+  changeForm(newForm, newStrength, newDex) {
     this.setState({
       form: newForm,
-      modStrength: newStrength
+      modStrength: newStrength,
+      modDex: newDex
     });
   }
 
@@ -35,6 +39,19 @@ export class Parent extends Component {
     });
 
     console.log("Strength is " + this.state.strength);
+  }
+
+  //passed to DexInput as prop
+  //reflects any changes to the character dex
+  //recevies 2 arguments from DexInput.js, new dex and modified dex
+  changeDexState(newDex, mod) {
+    this.setState({      
+      form: this.state.form,
+      dex: newDex,
+      modDex: mod
+    });
+
+    console.log("Dexterity is " + this.state.dex);
   }
 
 
@@ -67,8 +84,10 @@ export class Parent extends Component {
         return str-2;
         break;
       case 'Small':
-      case 'Medium':
         return str;
+        break;
+      case 'Medium':
+        return str+2;
         break;
       case 'Large':
         return str+4;
@@ -82,6 +101,52 @@ export class Parent extends Component {
     }
   }
 
+  //passed to and gets called by Child and dexInput (prop)
+  //checks argument typeof via conditional statement
+  //calculates new modified dex score whenever size or dex changs
+  checkDex(argument) {
+    console.log("checkDex was called");
+    console.log("form is: " + argument);
+    //console.log(typeof newSize == 'string');
+    
+    var dex = null;
+    var size = null;
+    
+    if (typeof argument == 'string') {
+      dex = this.state.dex;
+      size = argument;
+      console.log("size changed");
+    } else {
+      dex = argument;
+      size = this.state.form;
+      console.log("dex changed");
+    }
+
+    switch (size) {
+      case 'Dimunitive': 
+        return dex+6;
+        break;        
+      case 'Tiny':
+        return dex+4;
+        break;
+      case 'Small':
+        return dex+2;
+        break;
+      case 'Medium':
+        return dex;
+        break;
+      case 'Large':
+        return dex-2;
+        break;
+      case 'Huge':
+        return dex-4;
+        break;
+      default:
+        return dex;
+        break;
+    }
+  }
+
   render() {
     return (
       <div>
@@ -89,12 +154,18 @@ export class Parent extends Component {
           onChange = {this.changeStrState}
           changeStr = {this.checkStrength}
           strength = {this.state.strength} />
+        <DexInput 
+          onChange = {this.changeDexState}
+          changeDex = {this.checkDex}
+          dex = {this.state.dex} />
         <Child
           onChange = {this.changeForm}
-          checkStrength = {this.checkStrength}/>
+          checkStrength = {this.checkStrength}
+          checkDex = {this.checkDex}/>
         <Sibling 
           form = {this.state.form} 
-          modStrength ={this.state.modStrength}/>
+          modStrength ={this.state.modStrength}
+          modDex = {this.state.modDex}/>
       </div>
       );
   }

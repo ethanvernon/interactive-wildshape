@@ -10,7 +10,8 @@ export class Child extends Component {
   handleChange(e) {
     const form = e.target.value;
     const newStrength = this.props.checkStrength(form);
-    this.props.onChange(form, newStrength);
+    const newDex = this.props.checkDex(form);
+    this.props.onChange(form, newStrength, newDex);
   }
 
 
