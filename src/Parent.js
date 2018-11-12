@@ -11,11 +11,10 @@ export class Parent extends Component {
     this.changeForm = this.changeForm.bind(this);
     this.checkStrength = this.checkStrength.bind(this);
     this.changeStrState = this.changeStrState.bind(this);
-    this.changeStr = this.changeStr.bind(this);
   }
 
 
-  //gets called my Child
+  //passed to Child as prop
   //updates this.state.modStrength whenever size changes
   changeForm(newForm, newStrength) {
     this.setState({
@@ -25,6 +24,7 @@ export class Parent extends Component {
   }
 
 
+  //passed to StrInput as prop
   //reflects any changes to the character strength
   //recevies 2 arguments from StrInput.js, new strength and modified strength
   changeStrState(newStrength, mod) {
@@ -38,15 +38,28 @@ export class Parent extends Component {
   }
 
 
-  //gets called by Child
-  //calculates new modified strength score whenever size changes
-  checkStrength(newSize) {
+  //passed to and gets called by Child and strInput (prop)
+  //checks argument typeof via conditional statement
+  //calculates new modified strength score whenever size or strength changs
+  checkStrength(argument) {
     console.log("checkStrength was called");
-    console.log("form is: " + newSize);
+    console.log("form is: " + argument);
+    //console.log(typeof newSize == 'string');
+    
+    var str = null;
+    var size = null;
+    
+    if (typeof argument == 'string') {
+      str = this.state.strength;
+      size = argument;
+      console.log("size changed");
+    } else {
+      str = argument;
+      size = this.state.form;
+      console.log("strength changed");
+    }
 
-    const str = this.state.strength;
-
-    switch (newSize) {
+    switch (size) {
       case 'Dimunitive': 
         return str-4;
         break;        
@@ -71,42 +84,12 @@ export class Parent extends Component {
     }
   }
 
-  //passed to StrInput as prop
-  //checks this.state.form (size) and calculates modified strength
-  changeStr(newStr) {
-    const size = this.state.form;
-
-    switch (size) {
-      case 'Dimunitive': 
-        return newStr-4;
-        break;        
-      case 'Tiny':
-        return newStr-2;
-        break;
-      case 'Small':
-        return newStr;
-        break;
-      case 'Medium':
-        return newStr;
-        break;
-      case 'Large':
-        return newStr+4;
-        break;
-      case 'Huge':
-        return newStr+6;
-        break;
-      default:
-        return newStr;
-        break;
-    }
-  }
-
   render() {
     return (
       <div>
         <StrInput 
           onChange = {this.changeStrState}
-          changeStr = {this.changeStr}
+          changeStr = {this.checkStrength}
           strength = {this.state.strength} />
         <Child
           onChange = {this.changeForm}
