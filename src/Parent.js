@@ -67,8 +67,6 @@ export class Parent extends Component {
         return str-2;
         break;
       case 'Small':
-        return str;
-        break;
       case 'Medium':
         return str;
         break;
