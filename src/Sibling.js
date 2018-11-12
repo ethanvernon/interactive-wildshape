@@ -6,7 +6,7 @@ export class Sibling extends Component {
   render() {
 
     const form = this.props.form;
-    const strength = this.props.strength;
+    const strength = this.props.modStrength;
     
     return (
       <div>
