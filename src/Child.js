@@ -11,7 +11,8 @@ export class Child extends Component {
     const form = e.target.value;
     const newStrength = this.props.checkStrength(form);
     const newDex = this.props.checkDex(form);
-    this.props.onChange(form, newStrength, newDex);
+    const sizeModAA = this.props.checkModAA(form);
+    this.props.onChange(form, newStrength, newDex, sizeModAA);
   }
 
 
