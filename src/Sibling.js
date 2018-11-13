@@ -16,12 +16,12 @@ export class Sibling extends Component {
     return (
       <div>
         <h1>You've selected: {form}</h1>
-        <p>You're strength is now {strength}</p>        
-        <p>You're dexterity is now {dexterity}</p>        
-        <p>You're size modifier to attack and AC is {modAA}</p>
-        <p>You're size modifier to CMB and CMD is {modCMBD}</p>        
-        <p>You're melee attack bonus to primary attacks is {modMab}</p>
-        <p>You're melee attack bonus to secondary attacks is {secondaryMab}</p>
+        <p>Your strength is now {strength}</p>        
+        <p>Your dexterity is now {dexterity}</p>        
+        <p>Your size modifier to attack and AC is {modAA}</p>
+        <p>Your size modifier to CMB and CMD is {modCMBD}</p>        
+        <p>Your melee attack bonus to primary attacks is {modMab}</p>
+        <p>Your melee attack bonus to secondary attacks is {secondaryMab}</p>
       </div>
     );
   }
