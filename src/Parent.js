@@ -241,7 +241,7 @@ export class Parent extends Component {
           modDex = {this.state.modDex}
           modAA = {this.state.modAA}
           modCMBD = {this.state.modCMBD}          
-          modBab = {this.state.modMAB}/>
+          modMab = {this.state.modMAB}/>
       </div>
       );
   }
