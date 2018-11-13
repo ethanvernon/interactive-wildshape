@@ -8,24 +8,25 @@ import { DexInput } from './DexInput';
 export class Parent extends Component {
   constructor(props) {
     super(props);
-    this.state = {form: 'Medium', strength: 18, dex: 18, modStrength: 20, modDex: 18, modAA: 0};
+    this.state = {form: 'Medium', strength: 18, dex: 18, modStrength: 20, modDex: 18, modAA: 0, modCMBD: 0};
     this.changeForm = this.changeForm.bind(this);
     this.checkStrength = this.checkStrength.bind(this);
     this.changeStrState = this.changeStrState.bind(this);
     this.checkDex = this.checkDex.bind(this);
     this.changeDexState = this.changeDexState.bind(this);
-    this.checkModAA = this.checkModAA.bind(this);
+    this.checkSizeMod = this.checkSizeMod.bind(this);
   }
 
 
   //passed to Child as prop
   //updates this.state.modStrength, this.dexStrength, this.form whenever size changes
-  changeForm(newForm, newStrength, newDex, newSizeModAA) {
+  changeForm(newForm, newStrength, newDex, newSizeModAA, newSizeModCMBD) {
     this.setState({
       form: newForm,
       modStrength: newStrength,
       modDex: newDex,
-      modAA: newSizeModAA
+      modAA: newSizeModAA,
+      modCMBD: newSizeModCMBD
     });
   }
 
@@ -149,7 +150,10 @@ export class Parent extends Component {
     }
   }
 
-  checkModAA(size) {
+  //this is passed to Child.js as a prop
+  //it takes argument of size and returns the size modifier to AC and attack
+  //this is also called for modifier to CMB and CMD but the result is multiplied by negative 1
+  checkSizeMod(size) {
     switch (size) {
       case 'Dimunitive': 
         return 4;
@@ -190,12 +194,13 @@ export class Parent extends Component {
           onChange = {this.changeForm}
           checkStrength = {this.checkStrength}
           checkDex = {this.checkDex}
-          checkModAA = {this.checkModAA}/>
+          checkSizeMod = {this.checkSizeMod}/>
         <Sibling 
           form = {this.state.form} 
           modStrength ={this.state.modStrength}
           modDex = {this.state.modDex}
-          modAA = {this.state.modAA}/>
+          modAA = {this.state.modAA}
+          modCMBD = {this.state.modCMBD}/>
       </div>
       );
   }
