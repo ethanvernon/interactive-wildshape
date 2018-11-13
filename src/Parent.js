@@ -4,29 +4,34 @@ import { Child } from './Child';
 import { Sibling } from './Sibling';
 import { StrInput } from './StrInput';
 import { DexInput } from './DexInput';
+import { BabInput } from './BabInput';
 
 export class Parent extends Component {
   constructor(props) {
     super(props);
-    this.state = {form: 'Medium', strength: 18, dex: 18, modStrength: 20, modDex: 18, modAA: 0, modCMBD: 0};
+    this.state = {form: 'Medium', strength: 18, dex: 12, modStrength: 20, modDex: 12, modAA: 0, modCMBD: 0, bab: 7, modMAB: 12};
     this.changeForm = this.changeForm.bind(this);
     this.checkStrength = this.checkStrength.bind(this);
     this.changeStrState = this.changeStrState.bind(this);
     this.checkDex = this.checkDex.bind(this);
     this.changeDexState = this.changeDexState.bind(this);
     this.checkSizeMod = this.checkSizeMod.bind(this);
+    this.checkMabOnBabChange = this.checkMabOnBabChange.bind(this);
+    this.checkMabOnSizeChange = this.checkMabOnSizeChange.bind(this);
+    this.changeBabState = this.changeBabState.bind(this);
   }
 
 
   //passed to Child as prop
   //updates this.state.modStrength, this.dexStrength, this.form whenever size changes
-  changeForm(newForm, newStrength, newDex, newSizeModAA, newSizeModCMBD) {
+  changeForm(newForm, newStrength, newDex, newSizeModAA, newSizeModCMBD, newMAB) {
     this.setState({
       form: newForm,
       modStrength: newStrength,
       modDex: newDex,
       modAA: newSizeModAA,
-      modCMBD: newSizeModCMBD
+      modCMBD: newSizeModCMBD,
+      modMAB: newMAB
     });
   }
 
@@ -36,9 +41,9 @@ export class Parent extends Component {
   //recevies 2 arguments from StrInput.js, new strength and modified strength
   changeStrState(newStrength, mod) {
     this.setState({      
-      form: this.state.form,
       strength: newStrength,
-      modStrength: mod
+      modStrength: mod,
+      modMAB: this.state.bab + this.state.modAA + Math.floor((mod-10)/2)
     });
 
     console.log("Strength is " + this.state.strength);
@@ -55,6 +60,19 @@ export class Parent extends Component {
     });
 
     console.log("Dexterity is " + this.state.dex);
+  }
+
+  //passed to BabInput as prop
+  //reflects any changes to the character bab
+  //recevies 2 arguments from BabInput.js, new bab and modified bab
+  changeBabState(newBab, mod) {
+    this.setState({      
+      form: this.state.form,
+      bab: newBab,
+      modMAB: mod
+    });
+
+    console.log("modified melee attack bonus is " + this.state.modMAB);
   }
 
 
@@ -106,7 +124,7 @@ export class Parent extends Component {
 
   //passed to and gets called by Child and dexInput (prop)
   //checks argument typeof via conditional statement
-  //calculates new modified dex score whenever size or dex changs
+  //calculates new modified dex score whenever size or dex changes
   checkDex(argument) {
     console.log("checkDex was called");
     console.log("form is: " + argument);
@@ -179,9 +197,30 @@ export class Parent extends Component {
     }
   }
 
+  //passed to and gets called by BabInput (prop)
+  //calculates new modified bab score whenever bab changes
+  checkMabOnBabChange(argument) {
+    console.log("checkMabOnBabChange was called");
+    console.log("bab is: " + argument);
+    return argument+this.state.modAA+Math.floor((this.state.modStrength-10)/2);
+  }
+
+  //passed to and gets called by Child (prop)
+  //calculates new modified bab score whenever size changes
+  //takes size modifier to attack and AC as argument and modified strength from size change
+  checkMabOnSizeChange(argument, modStr) {
+    console.log("checkMabOnSizeChange was called");
+    console.log("modifier to attack and ac is: " + argument);
+    return argument+this.state.bab+Math.floor((modStr-10)/2);
+  }
+
   render() {
     return (
-      <div>
+      <div>        
+        <BabInput 
+          onChange = {this.changeBabState}
+          changeBab = {this.checkMabOnBabChange}
+          bab = {this.state.bab} />
         <StrInput 
           onChange = {this.changeStrState}
           changeStr = {this.checkStrength}
@@ -194,13 +233,15 @@ export class Parent extends Component {
           onChange = {this.changeForm}
           checkStrength = {this.checkStrength}
           checkDex = {this.checkDex}
-          checkSizeMod = {this.checkSizeMod}/>
+          checkSizeMod = {this.checkSizeMod}
+          checkMab = {this.checkMabOnSizeChange}/>
         <Sibling 
           form = {this.state.form} 
           modStrength ={this.state.modStrength}
           modDex = {this.state.modDex}
           modAA = {this.state.modAA}
-          modCMBD = {this.state.modCMBD}/>
+          modCMBD = {this.state.modCMBD}          
+          modBab = {this.state.modMAB}/>
       </div>
       );
   }
