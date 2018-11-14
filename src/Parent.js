@@ -9,7 +9,22 @@ import { BabInput } from './BabInput';
 export class Parent extends Component {
   constructor(props) {
     super(props);
-    this.state = {form: 'Medium', strength: 18, dex: 12, modStrength: 20, modDex: 12, modAA: 0, modCMBD: 0, bab: 7, modMAB: 12, meleeDamage: 5, meleeDamageSecondary: 2, CMB: 12, CMD: 23};
+    this.state = {
+      form: 'Medium', 
+      strength: 18, 
+      dex: 12, 
+      modStrength: 20, 
+      modDex: 12, 
+      modAA: 0, 
+      modCMBD: 0, 
+      bab: 7, 
+      modMAB: 12, 
+      meleeDamage: 5, 
+      meleeDamageSecondary: 2, 
+      CMB: 12, 
+      CMD: 23,
+      naturalArmor: 2
+    };
     this.changeForm = this.changeForm.bind(this);
     this.checkStrength = this.checkStrength.bind(this);
     this.changeStrState = this.changeStrState.bind(this);
@@ -19,12 +34,13 @@ export class Parent extends Component {
     this.checkMabOnBabChange = this.checkMabOnBabChange.bind(this);
     this.checkMabOnSizeChange = this.checkMabOnSizeChange.bind(this);
     this.changeBabState = this.changeBabState.bind(this);
+    this.checkNaturalArmor = this.checkNaturalArmor.bind(this);
   }
 
 
   //passed to Child as prop
   //updates this.state.modStrength, this.dexStrength, this.form whenever size changes
-  changeForm(newForm, newStrength, newDex, newSizeModAA, newSizeModCMBD, newMAB) {
+  changeForm(newForm, newStrength, newDex, newSizeModAA, newSizeModCMBD, newMAB, naturalArmor) {
     this.setState({
       form: newForm,
       modStrength: newStrength,
@@ -35,7 +51,8 @@ export class Parent extends Component {
       meleeDamage: Math.floor((newStrength-10)/2),
       meleeDamageSecondary: Math.floor((newStrength-10)/2) < 0 ? Math.floor((newStrength-10)/2) : Math.floor(((newStrength-10)/2)/2),
       CMB: newSizeModCMBD + (newForm == "Tiny" || newForm == "Dimunitive" ? Math.floor((newDex-10)/2) : Math.floor((newStrength-10)/2)) + this.state.bab,
-      CMD: 10 + newSizeModCMBD + Math.floor((newStrength-10)/2) + Math.floor((newDex-10)/2) + this.state.bab
+      CMD: 10 + newSizeModCMBD + Math.floor((newStrength-10)/2) + Math.floor((newDex-10)/2) + this.state.bab,
+      naturalArmor: naturalArmor
     });
   }
 
@@ -227,6 +244,31 @@ export class Parent extends Component {
     return argument+this.state.bab+Math.floor((modStr-10)/2);
   }
 
+  //this is passed to Child.js as a prop
+  //it takes argument of size and returns the size modifier to AC and attack
+  //this is also called for modifier to CMB and CMD but the result is multiplied by negative 1
+  checkNaturalArmor(size) {
+    switch (size) {
+      case 'Dimunitive':      
+      case 'Tiny':
+      case 'Small':
+        return 1;
+        break;
+      case 'Medium':
+        return 2;
+        break;
+      case 'Large':
+        return 4;
+        break;
+      case 'Huge':
+        return 6;
+        break;
+      default:
+        return 2;
+        break;
+    }
+  }
+
   render() {
     return (
       <div>        
@@ -247,7 +289,8 @@ export class Parent extends Component {
           checkStrength = {this.checkStrength}
           checkDex = {this.checkDex}
           checkSizeMod = {this.checkSizeMod}
-          checkMab = {this.checkMabOnSizeChange}/>
+          checkMab = {this.checkMabOnSizeChange}
+          checkNA = {this.checkNaturalArmor}/>
         <Sibling 
           form = {this.state.form} 
           modStrength ={this.state.modStrength}
@@ -258,7 +301,9 @@ export class Parent extends Component {
           meleeDamage = {this.state.meleeDamage}
           meleeDamageSecondary = {this.state.meleeDamageSecondary}
           CMB = {this.state.CMB}
-          CMD = {this.state.CMD}/>
+          CMD = {this.state.CMD}
+          naturalArmor = {this.state.naturalArmor}
+          />
       </div>
       );
   }
