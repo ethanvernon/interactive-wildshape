@@ -12,6 +12,8 @@ export class Sibling extends Component {
     const modCMBD = this.props.modCMBD;    
     const modMab = this.props.modMab;
     const secondaryMab = parseInt(this.props.modMab)-5;
+    const primDamage = this.props.meleeDamage;
+    const secondDamage = this.props.meleeDamageSecondary;
     
     return (
       <div>
@@ -20,8 +22,8 @@ export class Sibling extends Component {
         <p>Your dexterity is now {dexterity}</p>        
         <p>Your size modifier to attack and AC is {modAA}</p>
         <p>Your size modifier to CMB and CMD is {modCMBD}</p>        
-        <p>Your melee attack bonus to primary attacks is {modMab}</p>
-        <p>Your melee attack bonus to secondary attacks is {secondaryMab}</p>
+        <p>Your melee attack bonus to primary attacks is {modMab}, and {primDamage} damage</p>
+        <p>Your melee attack bonus to secondary attacks is {secondaryMab}, and {secondDamage} damage</p>
       </div>
     );
   }

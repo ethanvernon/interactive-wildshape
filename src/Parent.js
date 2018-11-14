@@ -9,7 +9,7 @@ import { BabInput } from './BabInput';
 export class Parent extends Component {
   constructor(props) {
     super(props);
-    this.state = {form: 'Medium', strength: 18, dex: 12, modStrength: 20, modDex: 12, modAA: 0, modCMBD: 0, bab: 7, modMAB: 12};
+    this.state = {form: 'Medium', strength: 18, dex: 12, modStrength: 20, modDex: 12, modAA: 0, modCMBD: 0, bab: 7, modMAB: 12, meleeDamage: 5, meleeDamageSecondary: 2};
     this.changeForm = this.changeForm.bind(this);
     this.checkStrength = this.checkStrength.bind(this);
     this.changeStrState = this.changeStrState.bind(this);
@@ -31,7 +31,9 @@ export class Parent extends Component {
       modDex: newDex,
       modAA: newSizeModAA,
       modCMBD: newSizeModCMBD,
-      modMAB: newMAB
+      modMAB: newMAB,
+      meleeDamage: Math.floor((newStrength-10)/2),
+      meleeDamageSecondary: Math.floor((newStrength-10)/2) < 0 ? Math.floor((newStrength-10)/2) : Math.floor(((newStrength-10)/2)/2)
     });
   }
 
@@ -43,7 +45,9 @@ export class Parent extends Component {
     this.setState({      
       strength: newStrength,
       modStrength: mod,
-      modMAB: this.state.bab + this.state.modAA + Math.floor((mod-10)/2)
+      modMAB: this.state.bab + this.state.modAA + Math.floor((mod-10)/2),
+      meleeDamage: Math.floor((mod-10)/2),
+      meleeDamageSecondary: Math.floor((mod-10)/2) < 0 ? Math.floor((mod-10)/2) : Math.floor(((mod-10)/2)/2)
     });
 
     console.log("Strength is " + this.state.strength);
@@ -241,7 +245,9 @@ export class Parent extends Component {
           modDex = {this.state.modDex}
           modAA = {this.state.modAA}
           modCMBD = {this.state.modCMBD}          
-          modMab = {this.state.modMAB}/>
+          modMab = {this.state.modMAB}
+          meleeDamage = {this.state.meleeDamage}
+          meleeDamageSecondary = {this.state.meleeDamageSecondary}/>
       </div>
       );
   }
