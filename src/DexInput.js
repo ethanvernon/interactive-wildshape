@@ -8,11 +8,6 @@ export class DexInput extends Component {
   }
 
   handleDexChange(e) {
-  	/*console.log(e.target.value);
-    const newStrength = this.props.changeStr(parseInt(e.target.value));
-    console.log("changeStr changed to "+ newStrength);
-    this.props.onChange(newStrength);*/
-
     this.props.onChange(parseInt(e.target.value), this.props.changeDex(parseInt(e.target.value)));
   }
 

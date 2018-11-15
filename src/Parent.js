@@ -23,7 +23,8 @@ export class Parent extends Component {
       meleeDamageSecondary: 2, 
       CMB: 12, 
       CMD: 23,
-      naturalArmor: 2
+      naturalArmor: 2,
+      armorClass: 13
     };
     this.changeForm = this.changeForm.bind(this);
     this.checkStrength = this.checkStrength.bind(this);
@@ -52,7 +53,8 @@ export class Parent extends Component {
       meleeDamageSecondary: Math.floor((newStrength-10)/2) < 0 ? Math.floor((newStrength-10)/2) : Math.floor(((newStrength-10)/2)/2),
       CMB: newSizeModCMBD + (newForm == "Tiny" || newForm == "Dimunitive" ? Math.floor((newDex-10)/2) : Math.floor((newStrength-10)/2)) + this.state.bab,
       CMD: 10 + newSizeModCMBD + Math.floor((newStrength-10)/2) + Math.floor((newDex-10)/2) + this.state.bab,
-      naturalArmor: naturalArmor
+      naturalArmor: naturalArmor,      
+      armorClass: 10 + newSizeModAA + Math.floor((newDex-10)/2) + naturalArmor
     });
   }
 
@@ -83,7 +85,8 @@ export class Parent extends Component {
       dex: newDex,
       modDex: mod,
       CMB: this.state.modCMBD + (this.state.form == "Tiny" || this.state.form == "Dimunitive" ? Math.floor((mod-10)/2) : Math.floor((this.state.modStrength-10)/2)) + this.state.bab,
-      CMD: 10 + this.state.modCMBD + Math.floor((this.state.modStrength-10)/2) + Math.floor((mod-10)/2) + this.state.bab
+      CMD: 10 + this.state.modCMBD + Math.floor((this.state.modStrength-10)/2) + Math.floor((mod-10)/2) + this.state.bab,
+      armorClass: 10 + this.state.modAA + Math.floor((mod-10)/2) + this.state.naturalArmor
 
     });
 
@@ -303,6 +306,7 @@ export class Parent extends Component {
           CMB = {this.state.CMB}
           CMD = {this.state.CMD}
           naturalArmor = {this.state.naturalArmor}
+          AC = {this.state.armorClass}
           />
       </div>
       );

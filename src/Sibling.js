@@ -17,6 +17,7 @@ export class Sibling extends Component {
     const CMB = this.props.CMB;
     const CMD = this.props.CMD;
     const naturalArmor = this.props.naturalArmor;
+    const AC = this.props.AC;
     
     return (
       <div>
@@ -31,6 +32,7 @@ export class Sibling extends Component {
         <p>Your new CMD is {CMD}</p>
         <p>Your melee attack bonus to primary attacks is {modMab}, and {primDamage} damage</p>
         <p>Your melee attack bonus to secondary attacks is {secondaryMab}, and {secondDamage} damage</p>
+        <p>Your armor class is {AC}</p>
       </div>
     );
   }
