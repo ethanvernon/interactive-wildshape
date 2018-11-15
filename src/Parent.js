@@ -100,7 +100,7 @@ export class Parent extends Component {
     this.setState({
       bab: newBab,
       modMAB: mod,
-      CMB: this.state.modCMBD + (this.state.form == "Tiny" || this.state.form == "Dimunitive" ? Math.floor((this.state.modDex-10)/2) : Math.floor((this.state.modStrength-10)/2)) + this.state.mod,
+      CMB: this.state.modCMBD + (this.state.form == "Tiny" || this.state.form == "Dimunitive" ? Math.floor((this.state.modDex-10)/2) : Math.floor((this.state.modStrength-10)/2)) + this.state.bab,
       CMD: 10 + this.state.modCMBD + Math.floor((this.state.modStrength-10)/2) + Math.floor((this.state.modDex-10)/2) + this.state.bab
 
     });
