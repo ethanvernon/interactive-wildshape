@@ -9,6 +9,7 @@ import { InitiativeInput } from './InitiativeInput';
 import { ResistanceInput } from './ResistanceInput';
 import { AmuletInput } from './AmuletInput';
 import { RingOfProtInput } from './RingOfProtInput';
+import { BarkskinInput } from './BarkskinInput';
 
 export class Parent extends Component {
   constructor(props) {
@@ -39,7 +40,8 @@ export class Parent extends Component {
       refSave: 7,
       skillsSizeMod: 0,
       amuletBonus: 2,
-      ringBonus: 2
+      ringBonus: 2,
+      barkskin: 0
     };
     this.changeForm = this.changeForm.bind(this);
     this.checkStrength = this.checkStrength.bind(this);
@@ -56,6 +58,7 @@ export class Parent extends Component {
     this.changeResState = this.changeResState.bind(this);
     this.changeAmuletState = this.changeAmuletState.bind(this);
     this.changeProtState = this.changeProtState.bind(this);
+    this.changeBarkskinState = this.changeBarkskinState.bind(this);
   }
 
 
@@ -78,9 +81,9 @@ export class Parent extends Component {
       CMB: newSizeModCMBD + (newForm == "Tiny" || newForm == "Dimunitive" ? dexMod : strMod) + this.state.bab,
       CMD: 10 + newSizeModCMBD + strMod + dexMod + this.state.bab,
       naturalArmor: naturalArmor,      
-      armorClass: 10 + newSizeModAA + dexMod + naturalArmor + this.state.ringBonus,
+      armorClass: 10 + newSizeModAA + dexMod + naturalArmor + this.state.ringBonus + this.state.barkskin,
       touchAC: 10 + newSizeModAA + dexMod + this.state.ringBonus,
-      flatfootAC: 10 + newSizeModAA + naturalArmor + this.state.ringBonus + (dexMod < 0 ? dexMod : 0),
+      flatfootAC: 10 + newSizeModAA + naturalArmor + this.state.ringBonus + (dexMod < 0 ? dexMod : 0) + this.state.barkskin,
       modInit: dexMod + this.state.initBonus,      
       refSave: this.state.resBonus + this.state.refBase + dexMod,
       skillsSizeMod: newSizeMod
@@ -120,7 +123,7 @@ export class Parent extends Component {
       modDex: mod,
       CMB: this.state.modCMBD + (this.state.form == "Tiny" || this.state.form == "Dimunitive" ? dexMod : strMod) + this.state.bab,
       CMD: 10 + this.state.modCMBD + strMod + dexMod + this.state.bab,
-      armorClass: 10 + this.state.modAA + dexMod + this.state.naturalArmor + this.state.ringBonus,
+      armorClass: 10 + this.state.modAA + dexMod + this.state.naturalArmor + this.state.ringBonus + this.state.barkskin,
       touchAC: 10 + this.state.modAA + dexMod + this.state.ringBonus,
       modInit: dexMod + this.state.initBonus,
       refSave: this.state.resBonus + this.state.refBase + dexMod
@@ -172,9 +175,9 @@ export class Parent extends Component {
     const dexMod = Math.floor((this.state.modDex-10)/2);
 
     this.setState({
-      armorClass: 10 + this.state.modAA + dexMod + this.state.naturalArmor + newRing,
+      armorClass: 10 + this.state.modAA + dexMod + this.state.naturalArmor + newRing + this.state.barkskin,
       touchAC: 10 + this.state.modAA + dexMod + newRing,
-      flatfootAC: 10 + this.state.modAA + this.state.naturalArmor + newRing + (dexMod < 0 ? dexMod : 0),
+      flatfootAC: 10 + this.state.modAA + this.state.naturalArmor + newRing + (dexMod < 0 ? dexMod : 0) + this.state.barkskin,
       ringBonus: newRing
     })
   }
@@ -208,11 +211,23 @@ export class Parent extends Component {
     }
   }
 
+  //passed to AmuletInput.js
   changeAmuletState(newVal) {
     this.setState({
       amuletBonus: newVal
     })
+  }
 
+  //passed to BarkskinInput.js
+  changeBarkskinState(newVal) {
+
+    const dexMod = Math.floor((this.state.modDex-10)/2);
+
+    this.setState({
+      barkskin: newVal,
+      armorClass: 10 + this.state.modAA + dexMod + this.state.naturalArmor + this.state.ringBonus + newVal,
+      flatfootAC: 10 + this.state.modAA + this.state.naturalArmor + this.state.ringBonus + (dexMod < 0 ? dexMod : 0) + newVal,
+    })
   }
 
   //passed to and gets called by Child and strInput (prop)
@@ -394,6 +409,9 @@ export class Parent extends Component {
         <ResistanceInput 
           onChange = {this.changeResState}
           resBonus = {this.state.resBonus} />
+        <BarkskinInput 
+          onChange = {this.changeBarkskinState}
+          barkskin = {this.state.barkskin} />
         <AmuletInput 
           onChange = {this.changeAmuletState}
           amuletBonus = {this.state.amuletBonus} />
@@ -432,6 +450,7 @@ export class Parent extends Component {
           skillsSizeMod = {this.state.skillsSizeMod}
           amuletBonus = {this.state.amuletBonus}
           ringBonus = {this.state.ringBonus}
+          barkskin = {this.state.barkskin}
           />
       </div>
       );

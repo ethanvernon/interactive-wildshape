@@ -24,17 +24,20 @@ export class Sibling extends Component {
     const ffAC = this.props.ffAC;
     const modAA = this.props.modAA;
     const CMB = this.props.CMB;
-    const CMBGrapple = this.props.CMB+4;
     const initiative = this.props.initiative;
     const refSave = this.props.refSave;
     const flyMod = this.props.skillsSizeMod;
     const ringBonus = this.props.ringBonus; 
+    const barkskin = this.props.barkskin;
 
     //adding amulet of MF
     const modMab = this.props.modMab+aMF;
     const secondaryMab = this.props.modMab+aMF-5;
     const primDamage = this.props.meleeDamage+aMF;
     const secondDamage = this.props.meleeDamageSecondary+aMF;
+
+    //add +4 bonus to grapple for creatures with grab    
+    const CMBGrapple = this.props.CMB+4;
 
     //calculate 1.5x Str bonus to damage with only 1 natural weapon
     const singleDamage = (strMod < 0) ? (strMod + aMF) : (Math.floor(strMod*1.5)+aMF);
@@ -58,7 +61,7 @@ export class Sibling extends Component {
       <div>
         <h1>You've selected: {form}</h1>
         <p><b>Init:</b> {plusAdder(initiative)}</p>
-        <p><b>AC:</b> {AC}, touch {touchAC}, flat-footed {ffAC} ({plusAdder(dexMod)} Dex, {plusAdder(naturalArmor)} natural, {plusAdder(modAA)} size, {plusAdder(ringBonus)} deflection)</p>        
+        <p><b>AC:</b> {AC}, touch {touchAC}, flat-footed {ffAC} ({plusAdder(dexMod)} Dex, {plusAdder(naturalArmor)} NA, {plusAdder(modAA)} size, {plusAdder(ringBonus)} deflection, {plusAdder(barkskin)} NA enhancement)</p>        
         <p><b>Ref:</b> {plusAdder(refSave)}</p>
         <p><b>Melee (multiple attacks):</b> {plusAdder(modMab)} <i>primary</i> (<i>dice</i>{plusAdder(primDamage)}), {plusAdder(secondaryMab)} <i>secondary</i> (<i>dice</i>{plusAdder(secondDamage)})</p>        
         <p><b>Melee (only 1 attack):</b> {plusAdder(modMab)} <i>sole attack</i> (<i>dice</i>{plusAdder(singleDamage)})</p>
