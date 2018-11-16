@@ -36,8 +36,8 @@ export class Sibling extends Component {
       <div>
         <h1>You've selected: {form}</h1>
         <p>Unlisted stats default to your character's</p>
-        <p>Skills use modified Strength and Dexterity modifiers.</p>
-        <p>Modify Fly and Stealth by new size modifiers if applicable </p><br/>
+        <p>Relevant skills use new Strength and Dexterity modifiers.</p>
+        <p>Further modify Fly and Stealth by new size modifiers if applicable.</p><br/>
         <p><b>Init:</b> {initiative}</p>
         <p><b>AC:</b> {AC}, touch {touchAC}, flat-footed {ffAC} ({dexMod} Dex, {naturalArmor} natural, {modAA} size)</p>        
         <p><b>Ref:</b> {refSave}</p>

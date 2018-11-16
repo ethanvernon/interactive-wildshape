@@ -13,7 +13,7 @@ export class ResistanceInput extends Component {
     console.log("changeStr changed to "+ newStrength);
     this.props.onChange(newStrength);*/
 
-    this.props.onChange(e.target.value);
+    this.props.onChange(parseInt(e.target.value));
   }
 
 

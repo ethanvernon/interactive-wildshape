@@ -51,6 +51,7 @@ export class Parent extends Component {
     this.checkNaturalArmor = this.checkNaturalArmor.bind(this);
     this.changeInitState = this.changeInitState.bind(this);
     this.changeSizeSkillMod = this.changeSizeSkillMod.bind(this);
+    this.changeResState = this.changeResState.bind(this);
   }
 
 
@@ -156,7 +157,6 @@ export class Parent extends Component {
   changeResState(newRes) {
     this.setState({
       resBonus: newRes,
-      refBase: Math.floor((this.state.modDex-10)/2),
       refSave: newRes + Math.floor((this.state.modDex-10)/2) + this.state.refBase
     })
   }
