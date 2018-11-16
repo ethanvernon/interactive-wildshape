@@ -28,7 +28,7 @@ export class RingOfProtInput extends Component {
         	type="number"
         	min="0"
         	max="5"
-        	defaultValue={this.props.protBonus} 
+        	defaultValue={this.props.ringBonus} 
         	onInput = {this.handleProtChange}/>        
       </div>
     );

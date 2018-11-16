@@ -8,6 +8,7 @@ import { BabInput } from './BabInput';
 import { InitiativeInput } from './InitiativeInput';
 import { ResistanceInput } from './ResistanceInput';
 import { AmuletInput } from './AmuletInput';
+import { RingOfProtInput } from './RingOfProtInput';
 
 export class Parent extends Component {
   constructor(props) {
@@ -27,9 +28,9 @@ export class Parent extends Component {
       CMB: 12, 
       CMD: 23,
       naturalArmor: 2,
-      armorClass: 13,
-      touchAC: 11,
-      flatfootAC: 12,
+      armorClass: 15,
+      touchAC: 13,
+      flatfootAC: 14,
       initiative: 3,
       modInit: 3,
       initBonus: 2,
@@ -37,7 +38,8 @@ export class Parent extends Component {
       refBase: 3,
       refSave: 7,
       skillsSizeMod: 0,
-      amuletBonus: 2
+      amuletBonus: 2,
+      ringBonus: 2
     };
     this.changeForm = this.changeForm.bind(this);
     this.checkStrength = this.checkStrength.bind(this);
@@ -53,6 +55,7 @@ export class Parent extends Component {
     this.changeSizeSkillMod = this.changeSizeSkillMod.bind(this);
     this.changeResState = this.changeResState.bind(this);
     this.changeAmuletState = this.changeAmuletState.bind(this);
+    this.changeProtState = this.changeProtState.bind(this);
   }
 
 
@@ -75,9 +78,9 @@ export class Parent extends Component {
       CMB: newSizeModCMBD + (newForm == "Tiny" || newForm == "Dimunitive" ? dexMod : strMod) + this.state.bab,
       CMD: 10 + newSizeModCMBD + strMod + dexMod + this.state.bab,
       naturalArmor: naturalArmor,      
-      armorClass: 10 + newSizeModAA + dexMod + naturalArmor,
-      touchAC: 10 + newSizeModAA + dexMod,
-      flatfootAC: 10 + newSizeModAA + naturalArmor,
+      armorClass: 10 + newSizeModAA + dexMod + naturalArmor + this.state.ringBonus,
+      touchAC: 10 + newSizeModAA + dexMod + this.state.ringBonus,
+      flatfootAC: 10 + newSizeModAA + naturalArmor + this.state.ringBonus,
       modInit: dexMod + this.state.initBonus,      
       refSave: this.state.resBonus + this.state.refBase + dexMod,
       skillsSizeMod: newSizeMod
@@ -117,8 +120,8 @@ export class Parent extends Component {
       modDex: mod,
       CMB: this.state.modCMBD + (this.state.form == "Tiny" || this.state.form == "Dimunitive" ? dexMod : strMod) + this.state.bab,
       CMD: 10 + this.state.modCMBD + strMod + dexMod + this.state.bab,
-      armorClass: 10 + this.state.modAA + dexMod + this.state.naturalArmor,
-      touchAC: 10 + this.state.modAA + dexMod,
+      armorClass: 10 + this.state.modAA + dexMod + this.state.naturalArmor + this.state.ringBonus,
+      touchAC: 10 + this.state.modAA + dexMod + this.state.ringBonus,
       modInit: dexMod + this.state.initBonus,
       refSave: this.state.resBonus + this.state.refBase + dexMod
     });
@@ -159,6 +162,20 @@ export class Parent extends Component {
     this.setState({
       resBonus: newRes,
       refSave: newRes + Math.floor((this.state.modDex-10)/2) + this.state.refBase
+    })
+  }
+
+  //passed to RingOfProtInput as prop
+  //handles any changes to states affected by change to ring of protection bonus 
+  changeProtState(newRing) {
+
+    const dexMod = Math.floor((this.state.modDex-10)/2);
+
+    this.setState({
+      armorClass: 10 + this.state.modAA + dexMod + this.state.naturalArmor + newRing,
+      touchAC: 10 + this.state.modAA + dexMod + newRing,
+      flatfootAC: 10 + this.state.modAA + this.state.naturalArmor + newRing,
+      ringBonus: newRing
     })
   }
 
@@ -372,6 +389,9 @@ export class Parent extends Component {
           checkMab = {this.checkMabOnSizeChange}
           checkNA = {this.checkNaturalArmor}
           checkSkillsMod = {this.changeSizeSkillMod}/>
+        <RingOfProtInput 
+          onChange = {this.changeProtState}
+          ringBonus = {this.state.ringBonus} />
         <ResistanceInput 
           onChange = {this.changeResState}
           resBonus = {this.state.resBonus} />
@@ -412,6 +432,7 @@ export class Parent extends Component {
           refSave = {this.state.refSave}
           skillsSizeMod = {this.state.skillsSizeMod}
           amuletBonus = {this.state.amuletBonus}
+          ringBonus = {this.state.ringBonus}
           />
       </div>
       );

@@ -31,6 +31,7 @@ export class Sibling extends Component {
     const singleDamage = (strMod < (0-aMF)) ? (strMod + aMF) : "+" + (Math.floor(strMod*1.5)+aMF);
     const flyMod = this.props.skillsSizeMod < 0 ? this.props.skillsSizeMod : "+" + this.props.skillsSizeMod;
     const hideMod = (this.props.skillsSizeMod*2) < 0 ? (this.props.skillsSizeMod*2) : "+" + (this.props.skillsSizeMod*2);
+    const ringBonus = "+" + this.props.ringBonus;
     
     return (
       <div>
@@ -39,7 +40,7 @@ export class Sibling extends Component {
         <p>Relevant skills use new Strength and Dexterity modifiers.</p>
         <p>Further modify Fly and Stealth by new size modifiers if applicable.</p><br/>
         <p><b>Init:</b> {initiative}</p>
-        <p><b>AC:</b> {AC}, touch {touchAC}, flat-footed {ffAC} ({dexMod} Dex, {naturalArmor} natural, {modAA} size)</p>        
+        <p><b>AC:</b> {AC}, touch {touchAC}, flat-footed {ffAC} ({dexMod} Dex, {naturalArmor} natural, {modAA} size, {ringBonus} deflection)</p>        
         <p><b>Ref:</b> {refSave}</p>
         <p><b>Melee (multiple attacks):</b> {modMab} <i>primary</i> (<i>dice</i>{primDamage}), {secondaryMab} <i>secondary</i> (<i>dice</i>{secondDamage})</p>        
         <p><b>Melee (only 1 attack):</b> {modMab} <i>sole attack</i> (<i>dice</i>{singleDamage})</p>
