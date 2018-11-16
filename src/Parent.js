@@ -52,6 +52,7 @@ export class Parent extends Component {
     this.changeInitState = this.changeInitState.bind(this);
     this.changeSizeSkillMod = this.changeSizeSkillMod.bind(this);
     this.changeResState = this.changeResState.bind(this);
+    this.changeAmuletState = this.changeAmuletState.bind(this);
   }
 
 
