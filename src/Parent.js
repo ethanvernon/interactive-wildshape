@@ -354,8 +354,7 @@ export class Parent extends Component {
   }
 
   //this is passed to Child.js as a prop
-  //it takes argument of size and returns the size modifier to AC and attack
-  //this is also called for modifier to CMB and CMD but the result is multiplied by negative 1
+  //it takes argument of size and returns the spell's modifier to natural armor
   checkNaturalArmor(size) {
     switch (size) {
       case 'Dimunitive':      

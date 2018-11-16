@@ -36,9 +36,6 @@ export class Sibling extends Component {
     return (
       <div>
         <h1>You've selected: {form}</h1>
-        <p>Unlisted stats default to your character's</p>
-        <p>Relevant skills use new Strength and Dexterity modifiers.</p>
-        <p>Further modify Fly and Stealth by new size modifiers if applicable.</p><br/>
         <p><b>Init:</b> {initiative}</p>
         <p><b>AC:</b> {AC}, touch {touchAC}, flat-footed {ffAC} ({dexMod} Dex, {naturalArmor} natural, {modAA} size, {ringBonus} deflection)</p>        
         <p><b>Ref:</b> {refSave}</p>
@@ -47,10 +44,13 @@ export class Sibling extends Component {
         <p><b>Str:</b> {strength} ({strMod < 0 ? strMod : "+" + strMod}), <b>Dex:</b> {dexterity} ({dexMod})</p>        
         <p><b>CMB:</b> {CMB} ({CMBGrapple} grapple if it has <i>grab</i>)</p>
         <p><b>CMD:</b> {CMD}</p>
-        <p><b>Size Modified Skills:</b> {hideMod} Stealth, {flyMod} Fly</p>
+        <p><b>Size modified skills:</b> {hideMod} Stealth, {flyMod} Fly</p>
         <p><b>Applicable abilities (<i>Beast Shape III</i>):</b> burrow 30 feet, climb 90 feet, fly 90 feet (good maneuverability), 
         swim 90 feet, blindsense 30 feet, darkvision 60 feet, low-light vision, scent, constrict, ferocity, grab, jet, poison, 
-        pounce, rake, trample, trip, and web.</p>
+        pounce, rake, trample, trip, and web.</p><br/>
+        <p>Unlisted stats default to your character's</p>
+        <p>Relevant skills use new Strength and Dexterity modifiers.</p>
+        <p>Further modify Fly and Stealth by new size modifiers if applicable.</p>
       </div>
     );
   }
