@@ -5,15 +5,18 @@ export class Sibling extends Component {
 
   render() {
 
+    const aMF = parseInt(this.props.amuletBonus);
+    const strMod = Math.floor((this.props.modStrength-10)/2);
+
     const form = this.props.form;
     const strength = this.props.modStrength;
     const dexterity = this.props.modDex;
     const modAA = this.props.modAA < 0 ? this.props.modAA : "+" + this.props.modAA;
     const modCMBD = this.props.modCMBD;    
-    const modMab = this.props.modMab < 0 ? this.props.modMab : "+" + this.props.modMab;
-    const secondaryMab = (parseInt(this.props.modMab)-5) < 0 ? parseInt(this.props.modMab)-5 : "+" + (parseInt(this.props.modMab)-5);
-    const primDamage = this.props.meleeDamage < 0 ? this.props.meleeDamage : "+" + this.props.meleeDamage;
-    const secondDamage = this.props.meleeDamageSecondary < 0 ? this.props.meleeDamageSecondary : "+" + this.props.meleeDamageSecondary;
+    const modMab = (this.props.modMab+aMF) < 0 ? (this.props.modMab+aMF) : "+" + (this.props.modMab+aMF);
+    const secondaryMab = (parseInt(this.props.modMab+aMF)-5) < 0 ? parseInt(this.props.modMab+aMF)-5 : "+" + (parseInt(this.props.modMab+aMF)-5);
+    const primDamage = (this.props.meleeDamage+aMF) < 0 ? (this.props.meleeDamage+aMF) : "+" + (this.props.meleeDamage+aMF);
+    const secondDamage = (this.props.meleeDamageSecondary+aMF) < 0 ? (this.props.meleeDamageSecondary+aMF) : "+" + (this.props.meleeDamageSecondary+aMF);
     const CMB = this.props.CMB < 0 ? this.props.CMB : "+" + this.props.CMB;
     const CMBGrapple = (this.props.CMB+4) < 0 ? this.props.CMB+4 : "+" + (this.props.CMB+4);
     const CMD = this.props.CMD;
@@ -24,22 +27,25 @@ export class Sibling extends Component {
     const ffAC = this.props.ffAC;
     const dexMOD = Math.floor((this.props.modDex-10)/2) < 0 ? Math.floor((this.props.modDex-10)/2) : "+" + Math.floor((this.props.modDex-10)/2);
     const refSave = this.props.refSave < 0 ? this.props.refSave : "+" + this.props.refSave;
-    const singleDamage = primDamage < 0 ? primDamage : "+" + Math.floor(primDamage*1.5);
+    const singleDamage = (strMod < (0-aMF)) ? (strMod + aMF) : "+" + (Math.floor(strMod*1.5)+aMF);
+    const flyMod = this.props.skillsSizeMod < 0 ? this.props.skillsSizeMod : "+" + this.props.skillsSizeMod;
+    const hideMod = (this.props.skillsSizeMod*2) < 0 ? (this.props.skillsSizeMod*2) : "+" + (this.props.skillsSizeMod*2);
     
     return (
       <div>
         <h1>You've selected: {form}</h1>
         <p>Unlisted stats default to your character's</p>
-        <p>Skills use modified Strength and Dexterity scores unless noted</p><br/>
+        <p>Skills use modified Strength and Dexterity modifiers.</p>
+        <p>Modify Fly and Stealth by new size modifiers if applicable </p><br/>
         <p><b>Init:</b> {initiative}</p>
         <p><b>AC:</b> {AC}, touch {touchAC}, flat-footed {ffAC} ({dexMOD} Dex, {naturalArmor} natural, {modAA} size)</p>        
         <p><b>Ref:</b> {refSave}</p>
-        <p><b>Melee (multiple attacks):</b> {modMab} <i>primary</i> (dice{primDamage}), {secondaryMab} <i>secondary</i> (dice{secondDamage})</p>        
-        <p><b>Melee (only 1 attack):</b> {modMab} <i>sole attack</i> (dice{singleDamage})</p>
+        <p><b>Melee (multiple attacks):</b> {modMab} <i>primary</i> (<i>dice</i>{primDamage}), {secondaryMab} <i>secondary</i> (<i>dice</i>{secondDamage})</p>        
+        <p><b>Melee (only 1 attack):</b> {modMab} <i>sole attack</i> (<i>dice</i>{singleDamage})</p>
         <p><b>Str</b> {strength}, <b>Dex</b> {dexterity}</p>        
         <p><b>CMB</b> {CMB} ({CMBGrapple} grapple if it has <i>grab</i>)</p>
         <p><b>CMD</b> {CMD}</p>
-        <p><b>Skills</b></p>
+        <p><b>Size Modified Skills</b> {hideMod} Stealth, {flyMod} Fly</p>
       </div>
     );
   }

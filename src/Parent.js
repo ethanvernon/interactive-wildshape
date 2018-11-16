@@ -7,6 +7,7 @@ import { DexInput } from './DexInput';
 import { BabInput } from './BabInput';
 import { InitiativeInput } from './InitiativeInput';
 import { ResistanceInput } from './ResistanceInput';
+import { AmuletInput } from './AmuletInput';
 
 export class Parent extends Component {
   constructor(props) {
@@ -34,7 +35,9 @@ export class Parent extends Component {
       initBonus: 2,
       resBonus: 3,
       refBase: 3,
-      refSave: 7
+      refSave: 7,
+      skillsSizeMod: 0,
+      amuletBonus: 2
     };
     this.changeForm = this.changeForm.bind(this);
     this.checkStrength = this.checkStrength.bind(this);
@@ -47,12 +50,13 @@ export class Parent extends Component {
     this.changeBabState = this.changeBabState.bind(this);
     this.checkNaturalArmor = this.checkNaturalArmor.bind(this);
     this.changeInitState = this.changeInitState.bind(this);
+    this.changeSizeSkillMod = this.changeSizeSkillMod.bind(this);
   }
 
 
   //passed to Child as prop
   //updates this.state.modStrength, this.dexStrength, this.form whenever size changes
-  changeForm(newForm, newStrength, newDex, newSizeModAA, newSizeModCMBD, newMAB, naturalArmor) {
+  changeForm(newForm, newStrength, newDex, newSizeModAA, newSizeModCMBD, newMAB, naturalArmor, newSizeMod) {
 
     const dexMod = Math.floor((newDex-10)/2);
     const strMod = Math.floor((newStrength-10)/2);
@@ -73,7 +77,8 @@ export class Parent extends Component {
       touchAC: 10 + newSizeModAA + dexMod,
       flatfootAC: 10 + newSizeModAA + naturalArmor,
       modInit: dexMod + this.state.initBonus,      
-      refSave: this.state.resBonus + this.state.refBase + dexMod
+      refSave: this.state.resBonus + this.state.refBase + dexMod,
+      skillsSizeMod: newSizeMod
     });
   }
 
@@ -156,6 +161,41 @@ export class Parent extends Component {
     })
   }
 
+  //passed to Child.js as prop
+  //reflects any changes to speical size modifier to fly/stealth via size
+  changeSizeSkillMod(newSize) {
+
+    switch (newSize) {
+      case 'Dimunitive': 
+        return 6;
+        break;        
+      case 'Tiny':
+        return 4;
+        break;
+      case 'Small':
+        return 2;
+        break;
+      case 'Medium':
+        return 0;
+        break;
+      case 'Large':
+        return -2;
+        break;
+      case 'Huge':
+        return -4;
+        break;
+      default:
+        return 0;
+        break;
+    }
+  }
+
+  changeAmuletState(newVal) {
+    this.setState({
+      amuletBonus: newVal
+    })
+
+  }
 
   //passed to and gets called by Child and strInput (prop)
   //checks argument typeof via conditional statement
@@ -329,10 +369,14 @@ export class Parent extends Component {
           checkDex = {this.checkDex}
           checkSizeMod = {this.checkSizeMod}
           checkMab = {this.checkMabOnSizeChange}
-          checkNA = {this.checkNaturalArmor}/>
+          checkNA = {this.checkNaturalArmor}
+          checkSkillsMod = {this.changeSizeSkillMod}/>
         <ResistanceInput 
           onChange = {this.changeResState}
           resBonus = {this.state.resBonus} />
+        <AmuletInput 
+          onChange = {this.changeAmuletState}
+          amuletBonus = {this.state.amuletBonus} />
         <InitiativeInput 
           onChange = {this.changeInitState}
           initBonus = {this.state.initBonus} />
@@ -365,6 +409,8 @@ export class Parent extends Component {
           ffAC = {this.state.flatfootAC}
           touchAC = {this.state.touchAC}
           refSave = {this.state.refSave}
+          skillsSizeMod = {this.state.skillsSizeMod}
+          amuletBonus = {this.state.amuletBonus}
           />
       </div>
       );
