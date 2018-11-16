@@ -10,6 +10,7 @@ import { ResistanceInput } from './ResistanceInput';
 import { AmuletInput } from './AmuletInput';
 import { RingOfProtInput } from './RingOfProtInput';
 import { BarkskinInput } from './BarkskinInput';
+import { PrismInput } from './PrismInput';
 
 export class Parent extends Component {
   constructor(props) {
@@ -41,7 +42,8 @@ export class Parent extends Component {
       skillsSizeMod: 0,
       amuletBonus: 2,
       ringBonus: 2,
-      barkskin: 0
+      barkskin: 0,
+      prismBonus: 1
     };
     this.changeForm = this.changeForm.bind(this);
     this.checkStrength = this.checkStrength.bind(this);
@@ -59,6 +61,7 @@ export class Parent extends Component {
     this.changeAmuletState = this.changeAmuletState.bind(this);
     this.changeProtState = this.changeProtState.bind(this);
     this.changeBarkskinState = this.changeBarkskinState.bind(this);
+    this.changePrismState = this.changePrismState.bind(this);
   }
 
 
@@ -215,6 +218,13 @@ export class Parent extends Component {
   changeAmuletState(newVal) {
     this.setState({
       amuletBonus: newVal
+    })
+  }
+
+  //passed to PrismInput.js
+  changePrismState(newVal) {
+    this.setState({
+      prismBonus: newVal
     })
   }
 
@@ -412,6 +422,9 @@ export class Parent extends Component {
         <BarkskinInput 
           onChange = {this.changeBarkskinState}
           barkskin = {this.state.barkskin} />
+        <PrismInput 
+          onChange = {this.changePrismState}
+          prismBonus = {this.state.prismBonus} />
         <AmuletInput 
           onChange = {this.changeAmuletState}
           amuletBonus = {this.state.amuletBonus} />
@@ -451,6 +464,7 @@ export class Parent extends Component {
           amuletBonus = {this.state.amuletBonus}
           ringBonus = {this.state.ringBonus}
           barkskin = {this.state.barkskin}
+          prism = {this.state.prismBonus}
           />
       </div>
       );

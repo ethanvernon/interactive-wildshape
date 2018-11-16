@@ -29,10 +29,11 @@ export class Sibling extends Component {
     const flyMod = this.props.skillsSizeMod;
     const ringBonus = this.props.ringBonus; 
     const barkskin = this.props.barkskin;
+    const prism = this.props.prism;
 
-    //adding amulet of MF
-    const modMab = this.props.modMab+aMF;
-    const secondaryMab = this.props.modMab+aMF-5;
+    //adding amulet of MF & prism
+    const modMab = this.props.modMab+aMF+prism;
+    const secondaryMab = this.props.modMab+aMF-5+prism;
     const primDamage = this.props.meleeDamage+aMF;
     const secondDamage = this.props.meleeDamageSecondary+aMF;
 
