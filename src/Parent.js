@@ -80,7 +80,7 @@ export class Parent extends Component {
       naturalArmor: naturalArmor,      
       armorClass: 10 + newSizeModAA + dexMod + naturalArmor + this.state.ringBonus,
       touchAC: 10 + newSizeModAA + dexMod + this.state.ringBonus,
-      flatfootAC: 10 + newSizeModAA + naturalArmor + this.state.ringBonus,
+      flatfootAC: 10 + newSizeModAA + naturalArmor + this.state.ringBonus + (dexMod < 0 ? dexMod : 0),
       modInit: dexMod + this.state.initBonus,      
       refSave: this.state.resBonus + this.state.refBase + dexMod,
       skillsSizeMod: newSizeMod
@@ -174,7 +174,7 @@ export class Parent extends Component {
     this.setState({
       armorClass: 10 + this.state.modAA + dexMod + this.state.naturalArmor + newRing,
       touchAC: 10 + this.state.modAA + dexMod + newRing,
-      flatfootAC: 10 + this.state.modAA + this.state.naturalArmor + newRing,
+      flatfootAC: 10 + this.state.modAA + this.state.naturalArmor + newRing + (dexMod < 0 ? dexMod : 0),
       ringBonus: newRing
     })
   }
