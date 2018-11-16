@@ -6,6 +6,7 @@ import { StrInput } from './StrInput';
 import { DexInput } from './DexInput';
 import { BabInput } from './BabInput';
 import { InitiativeInput } from './InitiativeInput';
+import { ResistanceInput } from './ResistanceInput';
 
 export class Parent extends Component {
   constructor(props) {
@@ -30,7 +31,10 @@ export class Parent extends Component {
       flatfootAC: 12,
       initiative: 3,
       modInit: 3,
-      initBonus: 2
+      initBonus: 2,
+      resBonus: 3,
+      refBase: 3,
+      refSave: 7
     };
     this.changeForm = this.changeForm.bind(this);
     this.checkStrength = this.checkStrength.bind(this);
@@ -49,6 +53,10 @@ export class Parent extends Component {
   //passed to Child as prop
   //updates this.state.modStrength, this.dexStrength, this.form whenever size changes
   changeForm(newForm, newStrength, newDex, newSizeModAA, newSizeModCMBD, newMAB, naturalArmor) {
+
+    const dexMod = Math.floor((newDex-10)/2);
+    const strMod = Math.floor((newStrength-10)/2);
+
     this.setState({
       form: newForm,
       modStrength: newStrength,
@@ -56,15 +64,16 @@ export class Parent extends Component {
       modAA: newSizeModAA,
       modCMBD: newSizeModCMBD,
       modMAB: newMAB,
-      meleeDamage: Math.floor((newStrength-10)/2),
-      meleeDamageSecondary: Math.floor((newStrength-10)/2) < 0 ? Math.floor((newStrength-10)/2) : Math.floor(((newStrength-10)/2)/2),
-      CMB: newSizeModCMBD + (newForm == "Tiny" || newForm == "Dimunitive" ? Math.floor((newDex-10)/2) : Math.floor((newStrength-10)/2)) + this.state.bab,
-      CMD: 10 + newSizeModCMBD + Math.floor((newStrength-10)/2) + Math.floor((newDex-10)/2) + this.state.bab,
+      meleeDamage: strMod,
+      meleeDamageSecondary: strMod < 0 ? strMod : Math.floor(strMod/2),
+      CMB: newSizeModCMBD + (newForm == "Tiny" || newForm == "Dimunitive" ? dexMod : strMod) + this.state.bab,
+      CMD: 10 + newSizeModCMBD + strMod + dexMod + this.state.bab,
       naturalArmor: naturalArmor,      
-      armorClass: 10 + newSizeModAA + Math.floor((newDex-10)/2) + naturalArmor,
-      touchAC: 10 + newSizeModAA + Math.floor((newDex-10)/2),
+      armorClass: 10 + newSizeModAA + dexMod + naturalArmor,
+      touchAC: 10 + newSizeModAA + dexMod,
       flatfootAC: 10 + newSizeModAA + naturalArmor,
-      modInit: newDex
+      modInit: newDex,      
+      refSave: this.state.resBonus + this.state.refBase + dexMod
     });
   }
 
@@ -73,15 +82,17 @@ export class Parent extends Component {
   //reflects any changes to the character strength
   //recevies 2 arguments from StrInput.js, new strength and modified strength
   changeStrState(newStrength, mod) {
+    const dexMod = Math.floor((this.state.modDex-10)/2);
+    const strMod = Math.floor((mod-10)/2);
+
     this.setState({      
       strength: newStrength,
       modStrength: mod,
-      modMAB: this.state.bab + this.state.modAA + Math.floor((mod-10)/2),
-      meleeDamage: Math.floor((mod-10)/2),
-      meleeDamageSecondary: Math.floor((mod-10)/2) < 0 ? Math.floor((mod-10)/2) : Math.floor(((mod-10)/2)/2),
-      CMB: this.state.modCMBD + (this.state.form == "Tiny" || this.state.form == "Dimunitive" ? Math.floor((this.state.modDex-10)/2) : Math.floor((mod-10)/2)) + this.state.bab,
-      CMD: 10 + this.state.modCMBD + Math.floor((mod-10)/2) + Math.floor((this.state.modDex-10)/2) + this.state.bab
-
+      modMAB: this.state.bab + this.state.modAA + strMod,
+      meleeDamage: strMod,
+      meleeDamageSecondary: strMod < 0 ? strMod : Math.floor(strMod/2),
+      CMB: this.state.modCMBD + (this.state.form == "Tiny" || this.state.form == "Dimunitive" ? dexMod : strMod) + this.state.bab,
+      CMD: 10 + this.state.modCMBD + strMod + dexMod + this.state.bab
     });
 
     console.log("Strength is " + this.state.strength);
@@ -91,14 +102,18 @@ export class Parent extends Component {
   //reflects any changes to the character dex
   //recevies 2 arguments from DexInput.js, new dex and modified dex
   changeDexState(newDex, mod) {
+    const dexMod = Math.floor((mod-10)/2);
+    const strMod = Math.floor((this.state.modStrength-10)/2);
+
     this.setState({
       dex: newDex,
       modDex: mod,
-      CMB: this.state.modCMBD + (this.state.form == "Tiny" || this.state.form == "Dimunitive" ? Math.floor((mod-10)/2) : Math.floor((this.state.modStrength-10)/2)) + this.state.bab,
-      CMD: 10 + this.state.modCMBD + Math.floor((this.state.modStrength-10)/2) + Math.floor((mod-10)/2) + this.state.bab,
-      armorClass: 10 + this.state.modAA + Math.floor((mod-10)/2) + this.state.naturalArmor,
-      touchAC: 10 + this.state.modAA + Math.floor((mod-10)/2),
-      modInit: Math.floor((mod-10)/2) + this.state.initBonus
+      CMB: this.state.modCMBD + (this.state.form == "Tiny" || this.state.form == "Dimunitive" ? dexMod : strMod) + this.state.bab,
+      CMD: 10 + this.state.modCMBD + strMod + dexMod + this.state.bab,
+      armorClass: 10 + this.state.modAA + dexMod + this.state.naturalArmor,
+      touchAC: 10 + this.state.modAA + dexMod,
+      modInit: dexMod + this.state.initBonus,
+      refSave: this.state.resBonus + this.state.refBase + dexMod
     });
 
     console.log("Dexterity is " + this.state.dex);
@@ -108,21 +123,36 @@ export class Parent extends Component {
   //reflects any changes to the character bab
   //recevies 2 arguments from BabInput.js, new bab and modified bab
   changeBabState(newBab, mod) {
+    const dexMod = Math.floor((this.state.modDex-10)/2);
+    const strMod = Math.floor((this.state.modStrength-10)/2);
+
     this.setState({
       bab: newBab,
       modMAB: mod,
-      CMB: this.state.modCMBD + (this.state.form == "Tiny" || this.state.form == "Dimunitive" ? Math.floor((this.state.modDex-10)/2) : Math.floor((this.state.modStrength-10)/2)) + this.state.bab,
-      CMD: 10 + this.state.modCMBD + Math.floor((this.state.modStrength-10)/2) + Math.floor((this.state.modDex-10)/2) + this.state.bab
+      CMB: this.state.modCMBD + (this.state.form == "Tiny" || this.state.form == "Dimunitive" ? dexMod : strMod) + this.state.bab,
+      CMD: 10 + this.state.modCMBD + strMod + dexMod + this.state.bab
 
     });
 
     console.log("modified melee attack bonus is " + this.state.modMAB);
   }
 
+  //passed to InitiativeInput as prop
+  //reflects any changes to initiative bonus
   changeInitState(newInit) {
     this.setState({
       initBonus: newInit,
       modInit: parseInt(newInit) + Math.floor((this.state.modDex-10)/2)
+    })
+  }
+
+  //passed to ResistanceInput as prop
+  //reflects any changes to resistance bonus aka cloak of resistance
+  changeResState(newRes) {
+    this.setState({
+      resBonus: newRes,
+      refBase: Math.floor((this.state.modDex-10)/2),
+      refSave: newRes + Math.floor((this.state.modDex-10)/2) + this.state.refBase
     })
   }
 
@@ -293,6 +323,9 @@ export class Parent extends Component {
   render() {
     return (
       <div>
+      <ResistanceInput 
+          onChange = {this.changeResState}
+          resBonus = {this.state.resBonus} />
       <InitiativeInput 
           onChange = {this.changeInitState}
           initBonus = {this.state.initBonus} />
@@ -331,6 +364,7 @@ export class Parent extends Component {
           initiative = {this.state.modInit}
           ffAC = {this.state.flatfootAC}
           touchAC = {this.state.touchAC}
+          refSave = {this.state.refSave}
           />
       </div>
       );
