@@ -22,7 +22,7 @@ export class InitiativeInput extends Component {
   render() {
     return (
       <div>
-        <span>Misc. Initiative: </span>
+        <span>Initiative Bonuses: </span>
         <input 
         	id="initBonus"
         	type="number"

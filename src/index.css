@@ -17,7 +17,30 @@ h1 {
 	margin: 5px;
 }
 
-p {
+p, span {
 	margin: 3px;
   text-align:left;
+  font-size:16px;
+}
+
+input {
+  text-align: center;
+}
+
+select {
+  text-align-last:center;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {  
+   opacity: 1;
+}
+
+#main {
+  text-align:left;
+  margin-left: 20px;
+}
+
+.App-header {
+  align-items: normal !important;
 }

@@ -72,7 +72,7 @@ export class Parent extends Component {
       armorClass: 10 + newSizeModAA + dexMod + naturalArmor,
       touchAC: 10 + newSizeModAA + dexMod,
       flatfootAC: 10 + newSizeModAA + naturalArmor,
-      modInit: newDex,      
+      modInit: dexMod + this.state.initBonus,      
       refSave: this.state.resBonus + this.state.refBase + dexMod
     });
   }
@@ -322,11 +322,18 @@ export class Parent extends Component {
 
   render() {
     return (
-      <div>
-      <ResistanceInput 
+      <div id="main">      
+        <Child
+          onChange = {this.changeForm}
+          checkStrength = {this.checkStrength}
+          checkDex = {this.checkDex}
+          checkSizeMod = {this.checkSizeMod}
+          checkMab = {this.checkMabOnSizeChange}
+          checkNA = {this.checkNaturalArmor}/>
+        <ResistanceInput 
           onChange = {this.changeResState}
           resBonus = {this.state.resBonus} />
-      <InitiativeInput 
+        <InitiativeInput 
           onChange = {this.changeInitState}
           initBonus = {this.state.initBonus} />
         <BabInput 
@@ -341,13 +348,6 @@ export class Parent extends Component {
           onChange = {this.changeDexState}
           changeDex = {this.checkDex}
           dex = {this.state.dex} />
-        <Child
-          onChange = {this.changeForm}
-          checkStrength = {this.checkStrength}
-          checkDex = {this.checkDex}
-          checkSizeMod = {this.checkSizeMod}
-          checkMab = {this.checkMabOnSizeChange}
-          checkNA = {this.checkNaturalArmor}/>
         <Sibling 
           form = {this.state.form} 
           modStrength ={this.state.modStrength}
