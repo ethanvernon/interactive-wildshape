@@ -7,6 +7,7 @@ export class Sibling extends Component {
 
     const aMF = parseInt(this.props.amuletBonus);
     const strMod = Math.floor((this.props.modStrength-10)/2);
+    const dexMod = Math.floor((this.props.modDex-10)/2) < 0 ? Math.floor((this.props.modDex-10)/2) : "+" + Math.floor((this.props.modDex-10)/2);
 
     const form = this.props.form;
     const strength = this.props.modStrength;
@@ -25,7 +26,7 @@ export class Sibling extends Component {
     const initiative = this.props.initiative < 0 ? this.props.initiative : "+" + this.props.initiative;
     const touchAC = this.props.touchAC;
     const ffAC = this.props.ffAC;
-    const dexMOD = Math.floor((this.props.modDex-10)/2) < 0 ? Math.floor((this.props.modDex-10)/2) : "+" + Math.floor((this.props.modDex-10)/2);
+    
     const refSave = this.props.refSave < 0 ? this.props.refSave : "+" + this.props.refSave;
     const singleDamage = (strMod < (0-aMF)) ? (strMod + aMF) : "+" + (Math.floor(strMod*1.5)+aMF);
     const flyMod = this.props.skillsSizeMod < 0 ? this.props.skillsSizeMod : "+" + this.props.skillsSizeMod;
@@ -38,14 +39,17 @@ export class Sibling extends Component {
         <p>Skills use modified Strength and Dexterity modifiers.</p>
         <p>Modify Fly and Stealth by new size modifiers if applicable </p><br/>
         <p><b>Init:</b> {initiative}</p>
-        <p><b>AC:</b> {AC}, touch {touchAC}, flat-footed {ffAC} ({dexMOD} Dex, {naturalArmor} natural, {modAA} size)</p>        
+        <p><b>AC:</b> {AC}, touch {touchAC}, flat-footed {ffAC} ({dexMod} Dex, {naturalArmor} natural, {modAA} size)</p>        
         <p><b>Ref:</b> {refSave}</p>
         <p><b>Melee (multiple attacks):</b> {modMab} <i>primary</i> (<i>dice</i>{primDamage}), {secondaryMab} <i>secondary</i> (<i>dice</i>{secondDamage})</p>        
         <p><b>Melee (only 1 attack):</b> {modMab} <i>sole attack</i> (<i>dice</i>{singleDamage})</p>
-        <p><b>Str</b> {strength}, <b>Dex</b> {dexterity}</p>        
-        <p><b>CMB</b> {CMB} ({CMBGrapple} grapple if it has <i>grab</i>)</p>
-        <p><b>CMD</b> {CMD}</p>
-        <p><b>Size Modified Skills</b> {hideMod} Stealth, {flyMod} Fly</p>
+        <p><b>Str:</b> {strength} ({strMod < 0 ? strMod : "+" + strMod}), <b>Dex:</b> {dexterity} ({dexMod})</p>        
+        <p><b>CMB:</b> {CMB} ({CMBGrapple} grapple if it has <i>grab</i>)</p>
+        <p><b>CMD:</b> {CMD}</p>
+        <p><b>Size Modified Skills:</b> {hideMod} Stealth, {flyMod} Fly</p>
+        <p><b>Applicable abilities (<i>Beast Shape III</i>):</b> burrow 30 feet, climb 90 feet, fly 90 feet (good maneuverability), 
+        swim 90 feet, blindsense 30 feet, darkvision 60 feet, low-light vision, scent, constrict, ferocity, grab, jet, poison, 
+        pounce, rake, trample, trip, and web.</p>
       </div>
     );
   }
