@@ -30,6 +30,7 @@ export class Sibling extends Component {
     const ringBonus = this.props.ringBonus; 
     const barkskin = this.props.barkskin;
     const prism = this.props.prism;
+    const mageArmor = this.props.mageArmor;
 
     //adding amulet of MF & prism
     const modMab = this.props.modMab+aMF+prism;
@@ -62,7 +63,7 @@ export class Sibling extends Component {
       <div>
         <h1>You've selected: {form}</h1>
         <p><b>Init:</b> {plusAdder(initiative)}</p>
-        <p><b>AC:</b> {AC}, touch {touchAC}, flat-footed {ffAC} ({plusAdder(dexMod)} Dex, {plusAdder(naturalArmor)} NA, {plusAdder(modAA)} size, {plusAdder(ringBonus)} deflection, {plusAdder(barkskin)} NA enhancement)</p>        
+        <p><b>AC:</b> {AC}, touch {touchAC}, flat-footed {ffAC} ({plusAdder(dexMod)} Dex, {plusAdder(naturalArmor)} natural armor, {plusAdder(mageArmor)} armor, {plusAdder(modAA)} size, {plusAdder(ringBonus)} deflection, {plusAdder(barkskin)} natural armor enhancement)</p>        
         <p><b>Ref:</b> {plusAdder(refSave)}</p>
         <p><b>Melee (multiple attacks):</b> {plusAdder(modMab)} <i>primary</i> (<i>dice</i>{plusAdder(primDamage)}), {plusAdder(secondaryMab)} <i>secondary</i> (<i>dice</i>{plusAdder(secondDamage)})</p>        
         <p><b>Melee (only 1 attack):</b> {plusAdder(modMab)} <i>sole attack</i> (<i>dice</i>{plusAdder(singleDamage)})</p>

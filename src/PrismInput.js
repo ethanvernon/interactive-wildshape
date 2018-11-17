@@ -8,11 +8,6 @@ export class PrismInput extends Component {
   }
 
   handlePrismChange(e) {
-  	/*console.log(e.target.value);
-    const newStrength = this.props.changeStr(parseInt(e.target.value));
-    console.log("changeStr changed to "+ newStrength);
-    this.props.onChange(newStrength);*/
-
     this.props.onChange(parseInt(e.target.value));
   }
 

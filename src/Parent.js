@@ -11,6 +11,7 @@ import { AmuletInput } from './AmuletInput';
 import { RingOfProtInput } from './RingOfProtInput';
 import { BarkskinInput } from './BarkskinInput';
 import { PrismInput } from './PrismInput';
+import { MageArmorInput } from './MageArmorInput';
 
 export class Parent extends Component {
   constructor(props) {
@@ -43,7 +44,8 @@ export class Parent extends Component {
       amuletBonus: 2,
       ringBonus: 2,
       barkskin: 0,
-      prismBonus: 1
+      prismBonus: 1,
+      mageArmor: 0
     };
     this.changeForm = this.changeForm.bind(this);
     this.checkStrength = this.checkStrength.bind(this);
@@ -62,6 +64,7 @@ export class Parent extends Component {
     this.changeProtState = this.changeProtState.bind(this);
     this.changeBarkskinState = this.changeBarkskinState.bind(this);
     this.changePrismState = this.changePrismState.bind(this);
+    this.changeMageArmor = this.changeMageArmor.bind(this);    
   }
 
 
@@ -84,9 +87,9 @@ export class Parent extends Component {
       CMB: newSizeModCMBD + (newForm == "Tiny" || newForm == "Dimunitive" ? dexMod : strMod) + this.state.bab,
       CMD: 10 + newSizeModCMBD + strMod + dexMod + this.state.bab,
       naturalArmor: naturalArmor,      
-      armorClass: 10 + newSizeModAA + dexMod + naturalArmor + this.state.ringBonus + this.state.barkskin,
+      armorClass: 10 + newSizeModAA + dexMod + naturalArmor + this.state.ringBonus + this.state.barkskin + this.state.mageArmor,
       touchAC: 10 + newSizeModAA + dexMod + this.state.ringBonus,
-      flatfootAC: 10 + newSizeModAA + naturalArmor + this.state.ringBonus + (dexMod < 0 ? dexMod : 0) + this.state.barkskin,
+      flatfootAC: 10 + newSizeModAA + naturalArmor + this.state.ringBonus + (dexMod < 0 ? dexMod : 0) + this.state.barkskin + this.state.mageArmor,
       modInit: dexMod + this.state.initBonus,      
       refSave: this.state.resBonus + this.state.refBase + dexMod,
       skillsSizeMod: newSizeMod
@@ -126,7 +129,7 @@ export class Parent extends Component {
       modDex: mod,
       CMB: this.state.modCMBD + (this.state.form == "Tiny" || this.state.form == "Dimunitive" ? dexMod : strMod) + this.state.bab,
       CMD: 10 + this.state.modCMBD + strMod + dexMod + this.state.bab,
-      armorClass: 10 + this.state.modAA + dexMod + this.state.naturalArmor + this.state.ringBonus + this.state.barkskin,
+      armorClass: 10 + this.state.modAA + dexMod + this.state.naturalArmor + this.state.ringBonus + this.state.barkskin + this.state.mageArmor,
       touchAC: 10 + this.state.modAA + dexMod + this.state.ringBonus,
       modInit: dexMod + this.state.initBonus,
       refSave: this.state.resBonus + this.state.refBase + dexMod
@@ -178,9 +181,9 @@ export class Parent extends Component {
     const dexMod = Math.floor((this.state.modDex-10)/2);
 
     this.setState({
-      armorClass: 10 + this.state.modAA + dexMod + this.state.naturalArmor + newRing + this.state.barkskin,
+      armorClass: 10 + this.state.modAA + dexMod + this.state.naturalArmor + newRing + this.state.barkskin + this.state.mageArmor,
       touchAC: 10 + this.state.modAA + dexMod + newRing,
-      flatfootAC: 10 + this.state.modAA + this.state.naturalArmor + newRing + (dexMod < 0 ? dexMod : 0) + this.state.barkskin,
+      flatfootAC: 10 + this.state.modAA + this.state.naturalArmor + newRing + (dexMod < 0 ? dexMod : 0) + this.state.barkskin + this.state.mageArmor,
       ringBonus: newRing
     })
   }
@@ -235,8 +238,20 @@ export class Parent extends Component {
 
     this.setState({
       barkskin: newVal,
-      armorClass: 10 + this.state.modAA + dexMod + this.state.naturalArmor + this.state.ringBonus + newVal,
-      flatfootAC: 10 + this.state.modAA + this.state.naturalArmor + this.state.ringBonus + (dexMod < 0 ? dexMod : 0) + newVal,
+      armorClass: 10 + this.state.modAA + dexMod + this.state.naturalArmor + this.state.ringBonus + newVal + this.state.mageArmor,
+      flatfootAC: 10 + this.state.modAA + this.state.naturalArmor + this.state.ringBonus + (dexMod < 0 ? dexMod : 0) + newVal + this.state.mageArmor,
+    })
+  }
+
+  //passed to MageArmorInput.js
+  changeMageArmor(newVal) {
+
+    const dexMod = Math.floor((this.state.modDex-10)/2);
+
+    this.setState({
+      mageArmor: newVal,
+      armorClass: 10 + this.state.modAA + dexMod + this.state.naturalArmor + this.state.ringBonus + this.state.barkskin + newVal,
+      flatfootAC: 10 + this.state.modAA + this.state.naturalArmor + this.state.ringBonus + (dexMod < 0 ? dexMod : 0) + this.state.barkskin + newVal,
     })
   }
 
@@ -422,6 +437,8 @@ export class Parent extends Component {
         <BarkskinInput 
           onChange = {this.changeBarkskinState}
           barkskin = {this.state.barkskin} />
+        <MageArmorInput 
+          onChange = {this.changeMageArmor} />
         <PrismInput 
           onChange = {this.changePrismState}
           prismBonus = {this.state.prismBonus} />
@@ -465,6 +482,7 @@ export class Parent extends Component {
           ringBonus = {this.state.ringBonus}
           barkskin = {this.state.barkskin}
           prism = {this.state.prismBonus}
+          mageArmor = {this.state.mageArmor}
           />
       </div>
       );
