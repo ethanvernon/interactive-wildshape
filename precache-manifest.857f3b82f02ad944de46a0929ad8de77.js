@@ -8,19 +8,19 @@ self.__precacheManifest = [
     "url": "/interactive-wildshape/static/js/runtime~main.e82034db.js"
   },
   {
-    "revision": "ff04c28e26c10a446fbc",
-    "url": "/interactive-wildshape/static/js/main.ff04c28e.chunk.js"
+    "revision": "63d2ac72866be830a02b",
+    "url": "/interactive-wildshape/static/js/main.63d2ac72.chunk.js"
   },
   {
     "revision": "c65cf9be8937892ad4cb",
     "url": "/interactive-wildshape/static/js/1.c65cf9be.chunk.js"
   },
   {
-    "revision": "ff04c28e26c10a446fbc",
-    "url": "/interactive-wildshape/static/css/main.eafa1a2a.chunk.css"
+    "revision": "63d2ac72866be830a02b",
+    "url": "/interactive-wildshape/static/css/main.c7eb2436.chunk.css"
   },
   {
-    "revision": "f31bb8e61af23f258173f7e1e5f00a85",
+    "revision": "146bcb92ad3a2b5b5d2eccb209c49463",
     "url": "/interactive-wildshape/index.html"
   }
 ];
