@@ -12,6 +12,7 @@ import { RingOfProtInput } from './RingOfProtInput';
 import { BarkskinInput } from './BarkskinInput';
 import { PrismInput } from './PrismInput';
 import { MageArmorInput } from './MageArmorInput';
+import { BigBroHideCo } from './BigBroHideCo';
 
 export class Parent extends Component {
   constructor(props) {
@@ -45,7 +46,8 @@ export class Parent extends Component {
       ringBonus: 2,
       barkskin: 0,
       prismBonus: 1,
-      mageArmor: 0
+      mageArmor: 0,
+      toggleHide: "hidden"
     };
     this.changeForm = this.changeForm.bind(this);
     this.checkStrength = this.checkStrength.bind(this);
@@ -65,6 +67,7 @@ export class Parent extends Component {
     this.changeBarkskinState = this.changeBarkskinState.bind(this);
     this.changePrismState = this.changePrismState.bind(this);
     this.changeMageArmor = this.changeMageArmor.bind(this);    
+    this.hideCo = this.hideCo.bind(this);
   }
 
 
@@ -222,6 +225,11 @@ export class Parent extends Component {
     this.setState({
       amuletBonus: newVal
     })
+  }
+
+  hideCo(newClass) {
+    (newClass == "hidden") ? 
+      this.setState({toggleHide: "hidden"}) : this.setState({toggleHide: ""})
   }
 
   //passed to PrismInput.js
@@ -417,6 +425,8 @@ export class Parent extends Component {
     }
   }
 
+
+
   render() {
     return (
       <div id="main">      
@@ -428,6 +438,9 @@ export class Parent extends Component {
           checkMab = {this.checkMabOnSizeChange}
           checkNA = {this.checkNaturalArmor}
           checkSkillsMod = {this.changeSizeSkillMod}/>
+        <BigBroHideCo
+          onClick = {this.hideCo}
+          class = {this.state.toggleHide}>
         <RingOfProtInput 
           onChange = {this.changeProtState}
           ringBonus = {this.state.ringBonus} />
@@ -460,6 +473,7 @@ export class Parent extends Component {
           onChange = {this.changeDexState}
           changeDex = {this.checkDex}
           dex = {this.state.dex} />
+        </BigBroHideCo>
         <Sibling 
           form = {this.state.form} 
           modStrength ={this.state.modStrength}

@@ -45,3 +45,7 @@ input[type=number]::-webkit-outer-spin-button {
 .App-header {
   align-items: normal !important;
 }
+
+.hidden {
+  display:none;
+}
