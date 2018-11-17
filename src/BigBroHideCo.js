@@ -27,15 +27,17 @@ export class BigBroHideCo extends Component {
   render() {
     return (
       <div>        
-        <button 
-        type="button"
-        onClick={this.handleClick}
-        >
-          Show
-         </button>
+        <p>
+          More stats: <button 
+            type="button"
+            id="showHideButton"
+            onClick={this.handleClick}>
+            {this.props.buttonName}
+          </button>
+        </p>
         <div
           className={this.props.class}>
-            {this.props.children}  
+          {this.props.children}  
         </div>      
       </div>
     );

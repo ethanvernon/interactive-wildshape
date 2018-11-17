@@ -47,7 +47,8 @@ export class Parent extends Component {
       barkskin: 0,
       prismBonus: 1,
       mageArmor: 0,
-      toggleHide: "hidden"
+      toggleHide: "hidden",
+      buttonName: "Show"
     };
     this.changeForm = this.changeForm.bind(this);
     this.checkStrength = this.checkStrength.bind(this);
@@ -227,9 +228,13 @@ export class Parent extends Component {
     })
   }
 
+
+  //passed to BigBroHideCo.js
+  //sets state which is passed to BigBroHideCo to use as className and hide/show stats
+  //also sets button label
   hideCo(newClass) {
     (newClass == "hidden") ? 
-      this.setState({toggleHide: "hidden"}) : this.setState({toggleHide: ""})
+      this.setState({toggleHide: "hidden", buttonName: "Show"}) : this.setState({toggleHide: "", buttonName:"Hide"});
   }
 
   //passed to PrismInput.js
@@ -440,7 +445,8 @@ export class Parent extends Component {
           checkSkillsMod = {this.changeSizeSkillMod}/>
         <BigBroHideCo
           onClick = {this.hideCo}
-          class = {this.state.toggleHide}>
+          class = {this.state.toggleHide}
+          buttonName = {this.state.buttonName}>
         <RingOfProtInput 
           onChange = {this.changeProtState}
           ringBonus = {this.state.ringBonus} />
