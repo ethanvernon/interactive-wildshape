@@ -44,9 +44,9 @@ export class Parent extends Component {
       skillsSizeMod: 0,
       amuletBonus: 2,
       ringBonus: 2,
-      barkskin: 0,
+      barkskin: 4,
       prismBonus: 1,
-      mageArmor: 0,
+      mageArmor: 4,
       toggleHide: "hidden",
       buttonName: "Show"
     };
